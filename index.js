@@ -1,6 +1,6 @@
 require("dotenv").config();
 require("axios");
-const { Client, IntentsBitField }  = require("discord.js");
+const { Client, IntentsBitField } = require("discord.js");
 const { stringify } = require("nodemon/lib/utils");
 const client = new Client({
   intents: [
@@ -42,7 +42,7 @@ client.on("interactionCreate", async (interaction) => {
   }
 
   if (interaction.commandName === "help") {
-    const  CommandList = await getCommands(commands)
+    const CommandList = await getCommands(commands)
     await interaction.reply(CommandList);
 
     async function getCommands(commands) {
@@ -50,8 +50,8 @@ client.on("interactionCreate", async (interaction) => {
       for (let track = 0; track < commands.length; track++) {
         StringCommands += commands[track].name + (track < commands.length - 1 ? " /" : "");
       }
-        return StringCommands;
-      }
+      return StringCommands;
+    }
   }
 
   if (interaction.commandName === "weather") {
@@ -99,53 +99,15 @@ client.on("interactionCreate", async (interaction) => {
       return await interaction.reply("Tails Wins!");
     }
   }
-  if (interaction.commandName === "randomnumber100") {
-    function getRandomNumber100() {
-      var randomNumber100 = Math.floor(Math.random() * 100) + 1;
-      return randomNumber100.toString();
+  if (interaction.commandName === "randomnumber") {
+    const min = options.getInteger('min');
+    const max = options.getInteger('max');
+    function getRandomNumber() {
+      var randomNumber = Math.floor(Math.random() * max) + 1;
+      return randomNumber.toString();
     }
-    var randomNumberString100 = getRandomNumber100();
-    return await interaction.reply(randomNumberString100);
-  }
-  if (interaction.commandName === "randomnumber50") {
-    function getRandomNumber50() {
-      var randomNumber50 = Math.floor(Math.random() * 50) + 1;
-      return randomNumber50.toString();
-    }
-    var randomNumberString50 = getRandomNumber50();
-    return await interaction.reply(randomNumberString50);
-  }
-  if (interaction.commandName === "randomnumber25") {
-    function getRandomNumber25() {
-      var randomNumber25 = Math.floor(Math.random() * 25) + 1;
-      return randomNumber25.toString();
-    }
-    var randomNumberString25 = getRandomNumber25();
-    return await interaction.reply(randomNumberString25);
-  }
-  if (interaction.commandName === "randomnumber10") {
-    function getRandomNumber10() {
-      var randomNumber10 = Math.floor(Math.random() * 10) + 1;
-      return randomNumber10.toString();
-    }
-    var randomNumberString10 = getRandomNumber10();
-    return await interaction.reply(randomNumberString10);
-  }
-  if (interaction.commandName === "randomnumber5") {
-    function getRandomNumber5() {
-      var randomNumber5 = Math.floor(Math.random() * 5) + 1;
-      return randomNumber5.toString();
-    }
-    var randomNumberString5 = getRandomNumber5();
-    return await interaction.reply(randomNumberString5);
-  }
-  if (interaction.commandName === "randomnumber1000") {
-    function getRandomNumber1000() {
-      var randomNumber1000 = Math.floor(Math.random() * 1000) + 1;
-      return randomNumber1000.toString();
-    }
-    var randomNumberString1000 = getRandomNumber1000();
-    return await interaction.reply(randomNumberString1000);
+    var randomNumberString = getRandomNumber();
+    return await interaction.reply(randomNumberString);
   }
 });
 
@@ -166,34 +128,54 @@ const commands = [
   },
   {
     name: "coinflip",
-    description: "flips a coins",
+    description: "flips a coin",
   },
   {
-    name: "randomnumber100",
-    description: "random nummber 1-100",
+    name: "randomnumber",
+    description: "Generate a random number within a specified range",
+    options: [
+      {
+        name: "min",
+        description: "Minimum value",
+        type: 4, // Type 4 corresponds to integer input
+        required: true,
+      },
+      {
+        name: "max",
+        description: "Maximum value",
+        type: 4, // Type 4 corresponds to integer input
+        required: true,
+      },
+    ],
   },
-  {
-    name: "randomnumber50",
-    description: "random nummber 1-50",
-  },
-  {
-    name: "randomnumber25",
-    description: "random nummber 1-25",
-  },
-  {
-    name: "randomnumber10",
-    description: "random nummber 1-10",
-  },
-  {
-    name: "randomnumber5",
-    description: "random nummber 1-5",
-  },
-  {
-    name: "randomnumber1000",
-    description: "random nummber 1-1000",
-  },
-  {
-    name:"help",
-    description:" says all the commands",
-  },
-];
+];i
+
+/* 
+SUB_COMMAND (type: 1):
+
+Represents a sub-command within a command. Sub-commands are like sub-categories of a main command.
+SUB_COMMAND_GROUP (type: 2):
+
+Represents a group of sub-commands. Sub-command groups are used to organize related sub-commands.
+STRING (type: 3):
+
+Represents a string input. Used for commands that expect text input.
+INTEGER (type: 4):
+
+Represents an integer input. Used for commands that expect numeric input.
+BOOLEAN (type: 5):
+
+Represents a boolean (true/false) input. Used for commands that expect binary choices.
+USER (type: 6):
+
+Represents a Discord user. Used for commands that require a mention or user ID as input.
+CHANNEL (type: 7):
+
+Represents a Discord channel. Used for commands that require a mention or channel ID as input.
+ROLE (type: 8):
+
+Represents a Discord role. Used for commands that require a mention or role ID as input.
+MENTIONABLE (type: 9):
+
+Represents a mentionable item (user, role, or channel). Used for commands that can accept any mentionable input.
+*/
